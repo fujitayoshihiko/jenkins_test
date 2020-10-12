@@ -19,7 +19,7 @@ if [ ! -r ${LOG_FILE} ]; then
     exit 1
 fi
 
-LAST_LOG_EPOCH=$(date -d "`tac ${LOG_FILE} | grep -v \'remote_addr:10\\.[1-3]\' | head -n 1 | sed -e \'s/.*\\\\ttime:\\\\([^[:space:]]\\\\+\\\\).*/\\\\1/\' -e \'s/:/ /\' -e \'s/\\\\// /g\'`" +%s)
+LAST_LOG_EPOCH=$(date -d "`tac ${LOG_FILE} | grep -v \'remote_addr:10\\.[1-3]\' | head -n 1 | sed -e \'s/.\\*\\\\ttime:\\\\([^[:space:]]\\\\+\\\\).\\*/\\\\1/\' -e \'s/:/ /\' -e \'s/\\\\// /g\'`" +%s)
 NOW_EPOCH=`date +%s`
 
 if [[ $(($NOW_EPOCH - $LAST_LOG_EPOCH)) -gt 60 ]]; then
