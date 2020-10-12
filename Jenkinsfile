@@ -2,12 +2,6 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-      input {
-        message 'please set bid server'
-        parameters {
-          string(name: 'BID', defaultValue: 'bid', description: 'bid servers')
-        }
-      }
       steps {
         echo 'chose bid server!'
       }
