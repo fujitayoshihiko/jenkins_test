@@ -1,5 +1,11 @@
 pipeline {
   agent any
+  parameters {
+    string(
+      name: 'BID',      
+      description: 'server',
+    )
+  }
   stages {
     stage('check lb-sout') {
       steps {
