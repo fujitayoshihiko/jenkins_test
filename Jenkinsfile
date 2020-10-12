@@ -20,11 +20,11 @@ NOW_EPOCH=`date +%s`
 
 if [[ $(($NOW_EPOCH - $LAST_LOG_EPOCH)) -gt 60 ]]; then
     echo "$(($NOW_EPOCH - $LAST_LOG_EPOCH)) second has pass"
-    sleep 60
     exit 0
 fi
 
 echo "one minute has not passed($(($NOW_EPOCH - $LAST_LOG_EPOCH)))"
+sleep 60
 exit 1
 
 EOF'''
