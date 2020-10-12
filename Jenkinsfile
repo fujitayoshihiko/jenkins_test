@@ -3,9 +3,9 @@ pipeline {
   stages {
     stage('server select') {
       input {
-        message "Should we continue?"
-        ok "Yes, we should."
-        submitter "alice,bob"
+        message 'Should we continue?'
+        id 'Yes, we should.'
+        submitter 'alice,bob'
         parameters {
           string(name: 'Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
