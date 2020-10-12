@@ -2,6 +2,9 @@ pipeline {
   agent any
   stages {
     stage('server select') {
+      environment {
+        Test = 'chose bid server!'
+      }
       input {
         message 'Should we continue?'
         id 'Yes, we should.'
@@ -10,11 +13,8 @@ pipeline {
           string(name: 'Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
       }
-      environment {
-        Test = 'chose bid server!'
-      }
       steps {
-        echo "ok"
+        echo 'ok'
       }
     }
 
