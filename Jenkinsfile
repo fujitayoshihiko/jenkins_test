@@ -84,6 +84,7 @@ sleep 10
 exit 1
 EOF
 '''
+          }
         }
       }
     }
