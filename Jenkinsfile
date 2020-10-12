@@ -70,5 +70,28 @@ EOF
       }
     }
 
+    stage('check td-agent log transfered') {
+      steps {
+        sh 'ls'
+      }
+    }
+
+    stage('stop service') {
+      parallel {
+        stage('service stop') {
+          steps {
+            sh 'ls'
+          }
+        }
+
+        stage('stop cron') {
+          steps {
+            sh 'ls'
+          }
+        }
+
+      }
+    }
+
   }
 }
