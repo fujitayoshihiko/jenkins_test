@@ -29,9 +29,7 @@ exit 1
 
 EOF'''
           }
-
         }
-
       }
     }
 
@@ -54,9 +52,7 @@ exit 0
 EOF
 '''
           }
-
         }
-
       }
     }
 
@@ -104,8 +100,8 @@ sudo systemctl disable svscan
 sudo systemctl disable nginx
 EOF
 '''
+              }
             }
-            
           }
         }
 
