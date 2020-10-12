@@ -11,11 +11,9 @@ pipeline {
         }
       }
       steps {
-        echo 'ok'
         script {
           Server = "${Server}"
         }
-
       }
     }
 
@@ -27,7 +25,7 @@ pipeline {
         echo "${Server}"
         retry(count: 30) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
-            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@${Server} <<\'EOF\'
+            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey nn@${Server} <<\'EOF\'
 
 LOG_FILE=/var/log/nginx/access_bid.log
 
@@ -57,14 +55,17 @@ EOF'''
       }
     }
 
-    stage('check log transferred') {
+    stage('check log transferred') {      
+      environment {
+        Server = "${Server}"
+      }
       steps {
         retry(count: 60) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
-            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey nn@${Server} <<\'EOF\'
 exit 0
 BID=bid433
-diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e \'$BID\' | sort -n")
+diff <(ssh nn@${Server} "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e \'$BID\' | sort -n")
 RET=$?
 if [ $RET -ne 0 ]; then
     sleep 60
@@ -93,10 +94,13 @@ EOF
     }
 
     stage('check td-agent log transfered') {
+      environment {
+        Server = "${Server}"
+      }
       steps {
         retry(count: 60) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
-            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey nn@${Server} <<\'EOF\'
 if [ `find /var/lib/td-agent/buffer | wc -l` -eq 1 ]; then
   exit 0
 fi
@@ -114,11 +118,14 @@ EOF
     }
 
     stage('stop services') {
+      environment {
+        Server = "${Server}"
+      }
       parallel {
         stage('stop service') {
           steps {
             withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
-              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey nn@${Server} <<\'EOF\'
 sudo systemctl stop td-agent
 sudo systemctl stop svscan
 sudo systemctl stop nginx
@@ -136,7 +143,7 @@ EOF
         stage('stop cron') {
           steps {
             withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
-              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey nn@${Server} <<\'EOF\'
 # crontab -r
 EOF
 '''
