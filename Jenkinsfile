@@ -2,9 +2,6 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-      environment {
-        Test = "${Test}"
-      }
       input {
         message 'Should we continue?'
         id 'Yes, we should.'
@@ -13,6 +10,9 @@ pipeline {
           string(name: 'Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
       }
+      environment {
+        env.Test = "${Test}"
+      }
       steps {
         echo 'ok'
       }
@@ -20,7 +20,7 @@ pipeline {
 
     stage('check lb-sout') {
       steps {
-        echo "${Test}"
+        echo "${env.Test}"
         retry(count: 30) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
