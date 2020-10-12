@@ -3,8 +3,12 @@ pipeline {
   stages {
     stage('check lb-sout') {
       steps {
-        echo 'test'
+
+        def retryAttempt = 0
         retry(count: 30) {
+          if (retryAttempt > 0) {
+            echo "retry"
+          }
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
 
@@ -12,6 +16,7 @@ LOG_FILE=/var/log/nginx/access_bid.log
 
 if [ ! -r ${LOG_FILE} ]; then
     echo "unable to read nginx log file(${LOG_FILE})"
+    sleep 60
     exit 1
 fi
 
@@ -20,6 +25,7 @@ NOW_EPOCH=`date +%s`
 
 if [[ $(($NOW_EPOCH - $LAST_LOG_EPOCH)) -gt 60 ]]; then
     echo "$(($NOW_EPOCH - $LAST_LOG_EPOCH)) second has pass"
+    sleep 60
     exit 0
 fi
 
@@ -27,9 +33,8 @@ echo "one minute has not passed($(($NOW_EPOCH - $LAST_LOG_EPOCH)))"
 exit 1
 
 EOF'''
-            sleep 60
           }
-
+          retryAttempt = retryAttempt + 1
         }
 
       }
