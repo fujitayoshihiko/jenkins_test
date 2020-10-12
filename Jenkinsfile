@@ -141,9 +141,5 @@ EOF
 
       }
     }
-
-  }
-  parameters {
-    string(name: 'BID', description: 'server')
   }
 }
