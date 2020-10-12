@@ -4,15 +4,14 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-      datas.server = input(
-        id: 'userInput', 
-        message: 'select server',
-        parameters:[
-          string( name: 'server', defaultValue: 'bid', description: 'server name.')
-        ]
-      )
-      steps {
-        echo 'input server!'
+      script{
+        datas.server = input(
+          id: 'userInput', 
+          message: 'select server',
+          parameters:[
+            string( name: 'server', defaultValue: 'bid', description: 'server name.')
+          ]
+        )
       }
     }
     stage('check lb-sout') {
