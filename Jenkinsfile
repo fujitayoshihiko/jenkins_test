@@ -71,8 +71,15 @@ EOF
     }
 
     stage('check td-agent log transfered') {
-      steps {
-        sh 'ls'
+      retry(count: 60) {
+        steps {
+          if [ `find /var/lib/td-agent/buffer | wc -l` -eq 1 ]; then
+            exit 0
+          fi
+          find /var/lib/td-agent/buffer
+          sleep 10
+          exit 1
+        }
       }
     }
 
