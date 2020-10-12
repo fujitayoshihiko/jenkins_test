@@ -4,7 +4,10 @@ pipeline {
     stage('server select') {
       input {
         message 'Did you commit the source?'
-        id 'Yes'
+        id 'Server'
+        parameters {
+          string(name: 'SERVER', defaultValue: 'bid', description: 'Who should I say hello to?')
+        }
       }
       steps {
         echo 'chose bid server!'
