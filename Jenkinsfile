@@ -66,7 +66,6 @@ EOF
       }
     }
 
-
     stage('stop services') {
       parallel {
         stage('stop service') {
