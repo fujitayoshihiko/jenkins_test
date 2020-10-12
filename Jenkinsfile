@@ -81,7 +81,6 @@ sudo systemctl disable svscan
 sudo systemctl disable nginx
 EOF
 '''
-              }
             }
           }
         }
@@ -93,9 +92,9 @@ EOF
 # crontab -r
 EOF
 '''
+            }
           }
         }
-
       }
     }
 
