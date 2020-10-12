@@ -3,12 +3,7 @@ pipeline {
   stages {
     stage('check lb-sout') {
       steps {
-
-        def retryAttempt = 0
         retry(count: 30) {
-          if (retryAttempt > 0) {
-            echo "retry"
-          }
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
 
@@ -34,17 +29,20 @@ exit 1
 
 EOF'''
           }
-          retryAttempt = retryAttempt + 1
         }
-
       }
     }
 
     stage('check log-transferred') {
       steps {
         retry(count: 60) {
-          sh 'diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e "$BID" | sort -n")'
-          sleep 60
+          sh '''
+diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e "$BID" | sort -n")'
+RET=$?
+if [ ! $RET ]; then
+    sleep 60
+fi
+          '''
         }
 
       }
