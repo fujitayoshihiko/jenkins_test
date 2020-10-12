@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('server select') {
       steps {
-        scripts {
+        script {
           datas.server = input(
             message: 'Did you commit the source?',
             id: 'Server',
