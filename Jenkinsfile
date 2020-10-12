@@ -9,6 +9,9 @@ pipeline {
             sh '''
 LOG_FILE=/var/log/nginx/access_bid.log
 
+ls /var/log/nginx
+ls ${LOG_FILE}
+
 if [ ! -r ${LOG_FILE} ]; then
     echo "unable to read nginx log file(${LOG_FILE})"
     exit 1
