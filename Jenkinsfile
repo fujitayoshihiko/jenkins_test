@@ -10,15 +10,12 @@ pipeline {
 
 LOG_FILE=/var/log/nginx/access_bid.log
 
-ls /var/log/nginx
-ls ${LOG_FILE}
-
 if [ ! -r ${LOG_FILE} ]; then
     echo "unable to read nginx log file(${LOG_FILE})"
     exit 1
 fi
 
-LAST_LOG_EPOCH=$(date -d "`tac ${LOG_FILE} | grep -v \'remote_addr:10\\.[1-3]\' | head -n 1 | sed -e \'s/.*\\ttime\\([^\\t]\\+\\).*/\\1/\' \' -e \'s/:/ /\' -e \'s/\\\\// /g\'`" +%s)
+LAST_LOG_EPOCH=$(date -d "`tac ${LOG_FILE} | grep -v \'remote_addr:10\\.[1-3]\' | head -n 1 | sed -e \'s/.*\\ttime:\\([^\\t ]\\+\\).*/\\1/\' -e \'s/:/ /\' -e \'s/\\\\// /g\'`" +%s)
 NOW_EPOCH=`date +%s`
 
 if [[ $(($NOW_EPOCH - $LAST_LOG_EPOCH)) -gt 60 ]]; then
