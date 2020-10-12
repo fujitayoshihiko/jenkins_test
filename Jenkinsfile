@@ -6,10 +6,7 @@ pipeline {
         script {
           datas.server = input(
             message: 'Did you commit the source?',
-            id: 'Server',
-            parameters: [
-              string(defaultValue: 'None', description: 'Path of config file', name: 'Config'),
-            ]
+            id: 'Server'
           )
         }
 
