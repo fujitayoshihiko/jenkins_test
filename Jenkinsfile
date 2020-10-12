@@ -35,7 +35,7 @@ EOF'''
       }
     }
 
-    stage('check log-transferred') {
+    stage('check log transferred') {
       steps {
         retry(count: 60) {
           sh '''BID=bid433
@@ -49,6 +49,12 @@ fi
 exit 0'''
         }
 
+      }
+    }
+
+    stage('check td-agent log transferred') {
+      steps {
+        sh 'ls'
       }
     }
 
