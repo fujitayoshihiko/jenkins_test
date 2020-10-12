@@ -12,6 +12,10 @@ ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 ls
 '''
         }
 
+        retry(count: 5) {
+          echo 'ok'
+        }
+
       }
     }
 
