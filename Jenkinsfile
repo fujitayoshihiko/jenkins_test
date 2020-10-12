@@ -73,12 +73,17 @@ EOF
     stage('check td-agent log transfered') {
       retry(count: 60) {
         steps {
-          if [ `find /var/lib/td-agent/buffer | wc -l` -eq 1 ]; then
-            exit 0
-          fi
-          find /var/lib/td-agent/buffer
-          sleep 10
-          exit 1
+          withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
+            sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+if [ `find /var/lib/td-agent/buffer | wc -l` -eq 1 ]; then
+  exit 0
+fi
+find /var/lib/td-agent/buffer
+sleep 10
+
+exit 1
+EOF
+'''
         }
       }
     }
