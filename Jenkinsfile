@@ -8,7 +8,7 @@ pipeline {
           sh '''ls
 hostname
 echo "end"
-ssh -i $sshkey root@localhost ls
+ssh -i $sshkey root@192.168.86.100 ls
 '''
         }
 
