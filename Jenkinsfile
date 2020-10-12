@@ -19,7 +19,7 @@ LAST_LOG_EPOCH=$(date -d "`tac ${LOG_FILE} | grep -v \'remote_addr:10\\.[1-3]\' 
 NOW_EPOCH=`date +%s`
 
 if [[ $(($NOW_EPOCH - $LAST_LOG_EPOCH)) -gt 60 ]]; then
-    echo "$(($NOW_EPOCH - $LAST_LOG_EPOCH))) second has pass"
+    echo "$(($NOW_EPOCH - $LAST_LOG_EPOCH)) second has pass"
     exit 0
 fi
 
