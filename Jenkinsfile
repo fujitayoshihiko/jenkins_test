@@ -6,7 +6,14 @@ pipeline {
         script {
           Test = input(
             message: 'Did you commit the source?',
-            id: 'Server'
+            id: 'Server',
+            parameters: [
+              string(
+                defaultValue: default_branch,
+                description: 'master develop',
+                name: 'branch'
+              )
+            ]
           )
         }
 
