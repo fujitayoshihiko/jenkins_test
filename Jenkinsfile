@@ -38,8 +38,8 @@ EOF'''
     stage('check log-transferred') {
       steps {
         retry(count: 60) {
-          sh '''
-diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e "$BID" | sort -n")\'
+          sh '''BID=bid433
+diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e \'$BID\' | sort -n")\'
 RET=$?
 if [ ! $RET ]; then
     sleep 60
