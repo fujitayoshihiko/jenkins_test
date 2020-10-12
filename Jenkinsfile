@@ -10,10 +10,11 @@ pipeline {
           string(name: 'Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
       }
+      environment {
+        Test = 'chose bid server!'
+      }
       steps {
-        environment {
-          Test = 'chose bid server!'
-        }
+        echo "ok"
       }
     }
 
