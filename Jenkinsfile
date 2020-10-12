@@ -60,7 +60,7 @@ EOF
       }
     }
 
-    stage('fout and fout_infra source commit') {
+    stage('source commit') {
       input {
         message 'Did you commit the source?'
         id 'Yes'
