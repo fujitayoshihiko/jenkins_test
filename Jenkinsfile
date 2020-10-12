@@ -10,7 +10,7 @@ pipeline {
 hostname
 echo "end"
 ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
-exit 1
+exit 0
 EOF
 
 '''
