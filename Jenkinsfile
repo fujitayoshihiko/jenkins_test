@@ -2,9 +2,6 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-      environment {
-        Test = 'chose bid server!'
-      }
       input {
         message 'Should we continue?'
         id 'Yes, we should.'
@@ -14,7 +11,7 @@ pipeline {
         }
       }
       environment {
-        Test = ${Test}
+        Test = "${Test}"
       }
       steps {
         echo 'ok'
