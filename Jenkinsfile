@@ -1,11 +1,5 @@
 pipeline {
   agent any
-  parameters {
-    string(
-      name: 'BID',      
-      description: 'server',
-    )
-  }
   stages {
     stage('check lb-sout') {
       steps {
@@ -35,7 +29,9 @@ exit 1
 
 EOF'''
           }
+
         }
+
       }
     }
 
@@ -58,7 +54,9 @@ exit 0
 EOF
 '''
           }
+
         }
+
       }
     }
 
@@ -71,9 +69,9 @@ EOF
         echo 'source commited!'
       }
     }
-    
+
     stage('check td-agent log transfered') {
-      steps {        
+      steps {
         retry(count: 60) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
@@ -87,14 +85,16 @@ exit 1
 EOF
 '''
           }
+
         }
+
       }
     }
-    
+
     stage('stop services') {
       parallel {
         stage('stop service') {
-          steps {          
+          steps {
             withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
               sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
 sudo systemctl stop td-agent
@@ -107,6 +107,7 @@ sudo systemctl disable nginx
 EOF
 '''
             }
+
           }
         }
 
@@ -118,10 +119,15 @@ EOF
 EOF
 '''
             }
+
           }
         }
+
       }
     }
 
+  }
+  parameters {
+    string(name: 'BID', description: 'server')
   }
 }
