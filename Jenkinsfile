@@ -11,7 +11,9 @@ pipeline {
         }
       }
       steps {
-        echo 'chose bid server!'
+        environment {
+          Test = 'chose bid server!'
+        }
       }
     }
 
