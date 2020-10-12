@@ -7,11 +7,8 @@ pipeline {
         id 'Yes, we should.'
         submitter 'alice,bob'
         parameters {
-          string(name: 'Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+          string(name: 'env.Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
-      }
-      environment {
-        env.Test = "${Test}"
       }
       steps {
         echo 'ok'
