@@ -10,7 +10,7 @@ pipeline {
 LOG_FILE=/var/log/nginx/access_bid.log
 
 if [ ! -r ${LOG_FILE} ]; then
-    echo "dame1"
+    echo "unable to read nginx log file(${LOG_FILE})"
     exit 0
 fi
 
@@ -21,7 +21,7 @@ if [[ $(($NOW_EPOCH - $LAST_LOG_EPOCH)) -gt 60 ]]; then
     exit 0
 fi
 
-echo "$(($NOW_EPOCH - $LAST_LOG_EPOCH))dame 2"
+echo "one minute has not passed($(($NOW_EPOCH - $LAST_LOG_EPOCH)))"
 exit 1
 EOF
 '''
