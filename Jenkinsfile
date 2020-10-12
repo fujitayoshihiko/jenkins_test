@@ -1,5 +1,4 @@
 pipeline {
-  def datas
   agent any
   stages {
     stage('server select') {
