@@ -7,9 +7,9 @@ pipeline {
         parameters {
           string(name: 'BID', defaultValue: 'bid', description: 'bid servers')
         }
-        steps {
-          echo 'chose bid server!'
-        }
+      }
+      steps {
+        echo 'chose bid server!'
       }
     }
 
