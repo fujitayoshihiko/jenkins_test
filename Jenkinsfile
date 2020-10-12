@@ -2,28 +2,22 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-      steps {
-        script {
-          Test = input(
-            message: 'Did you commit the source?',
-            id: 'Server',
-            parameters: [
-              string(
-                defaultValue: default_branch,
-                description: 'master develop',
-                name: 'Test'
-              )
-            ]
-          )
+      input {
+        message "Should we continue?"
+        ok "Yes, we should."
+        submitter "alice,bob"
+        parameters {
+          string(name: 'Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
-
+      }
+      steps {
         echo 'chose bid server!'
       }
     }
 
     stage('check lb-sout') {
       steps {
-        echo $datas.server
+        echo $Test
         retry(count: 30) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
