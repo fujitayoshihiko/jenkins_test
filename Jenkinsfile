@@ -1,10 +1,10 @@
 pipeline {
   agent any
   stages {
-    stage('test1') {
+    stage('check lb-sout') {
       steps {
         echo 'test'
-        retry(count: 5) {
+        retry(count: 30) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
 
@@ -27,8 +27,19 @@ echo "one minute has not passed($(($NOW_EPOCH - $LAST_LOG_EPOCH)))"
 exit 1
 
 EOF'''
+            sleep 60
           }
 
+        }
+
+      }
+    }
+
+    stage('check log-transferred') {
+      steps {
+        retry(count: 60) {
+          sh 'diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e "$BID" | sort -n")'
+          sleep 60
         }
 
       }
