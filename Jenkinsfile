@@ -2,15 +2,12 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-      environment {
-        Test = "${Test}"
-      }
       input {
         message 'Should we continue?'
         id 'Yes, we should.'
         submitter 'alice,bob'
         parameters {
-          string(name: 'env.Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+          string(name: 'Server', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
       }
       steps {
