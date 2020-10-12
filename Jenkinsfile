@@ -11,7 +11,7 @@ pipeline {
               string(
                 defaultValue: default_branch,
                 description: 'master develop',
-                name: 'branch'
+                name: 'Test'
               )
             ]
           )
