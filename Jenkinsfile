@@ -4,17 +4,9 @@ pipeline {
   agent any
   stages {
     stage('server select') {
-                              inputName = input(
-                            id: "inputName",
-                            message: "Please input your name.",
-                            parameters:[
-                                string( name: 'first', defaultValue: '', description: 'Input your first name.'),
-                                string( name: 'last', defaultValue: '', description: 'Input your last name.')
-                            ]
-                        )
       datas.server = input(
         id: 'userInput', 
-        message: 'select server', parameters: [
+        message: 'select server',
         parameters:[
           string( name: 'server', defaultValue: 'bid', description: 'server name.')
         ]
