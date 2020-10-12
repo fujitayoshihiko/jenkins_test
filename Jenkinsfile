@@ -8,7 +8,7 @@ pipeline {
             message: 'Did you commit the source?',
             id: 'Server',
             parameters: [
-              string(defaultValue: 'None', description: 'Path of config file', name: 'Config')
+              string(defaultValue: 'None', description: 'Path of config file', name: 'Config'),
             ]
           )
         }
