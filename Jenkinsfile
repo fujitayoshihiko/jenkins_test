@@ -8,7 +8,7 @@ pipeline {
             message: 'Did you commit the source?',
             id: 'Server',
             parameters: [
-              string(name: 'SERVER', defaultValue: 'bid', description: 'Who should I say hello to?')
+              [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Path of config file', name: 'Config'],
             ]
           )
         }
