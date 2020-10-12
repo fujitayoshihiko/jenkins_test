@@ -1,21 +1,21 @@
-def datas
-
 pipeline {
   agent any
   stages {
     stage('server select') {
       steps {
-        script{
+        script {
           datas.server = input(
-            id: 'userInput', 
+            id: 'userInput',
             message: 'select server',
             parameters:[
               string( name: 'server', defaultValue: 'bid', description: 'server name.')
             ]
           )
         }
+
       }
     }
+
     stage('check lb-sout') {
       steps {
         echo $datas.server
