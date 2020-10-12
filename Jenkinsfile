@@ -10,11 +10,11 @@ pipeline {
           string(name: 'env.Test', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         }
       }
+      environment {
+        Test = "${Test}"
+      }
       steps {
         echo 'ok'
-        environment {
-          Test = "${Test}"
-        }
       }
     }
 
