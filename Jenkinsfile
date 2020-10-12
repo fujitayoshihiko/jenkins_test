@@ -38,7 +38,9 @@ EOF'''
     stage('check log transferred') {
       steps {
         retry(count: 60) {
-          sh '''exit 0
+            withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
+              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+exit 0
 BID=bid433
 diff <(ssh localhost "find /fout/log/ -mtime -1 | grep -e \'extract\' | grep -e \'$BID\' | sort -n") <(ssh log11 "find /fout/log/ -mtime -1 | grep -e "extract" | grep -e \'$BID\' | sort -n")
 RET=$?
@@ -47,9 +49,12 @@ if [ $RET -ne 0 ]; then
     exit 1
 fi
 
-exit 0'''
-        }
+exit 0
 
+EOF
+'''
+          }
+        }
       }
     }
 
