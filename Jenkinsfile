@@ -62,12 +62,13 @@ EOF
 
     stage('fout and fout_infra source commit') {
       input {
-        message "Did you commit the source?"
-        ok "Yes"
+        message 'Did you commit the source?'
+        id 'Yes'
       }
       steps {
-        echo "source commited!"
+        echo 'source commited!'
       }
     }
+
   }
 }
