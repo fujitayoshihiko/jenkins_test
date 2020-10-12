@@ -62,9 +62,11 @@ EOF
 
     stage('fout and fout_infra source commit') {
       steps {
-        sh 'ls'
+        input {
+          message "Did you commit the source?"
+          ok "Yes"
+        }
       }
     }
-
   }
 }
