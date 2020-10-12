@@ -11,6 +11,9 @@ pipeline {
           string( name: 'server', defaultValue: 'bid', description: 'server name.')
         ]
       )
+      steps {
+        echo 'input server!'
+      }
     }
     stage('check lb-sout') {
       steps {
