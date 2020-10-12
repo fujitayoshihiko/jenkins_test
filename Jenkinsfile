@@ -2,6 +2,10 @@ pipeline {
   agent any
   stages {
     stage('server select') {
+      input {
+        message 'Did you commit the source?'
+        id 'Yes'
+      }
       steps {
         echo 'chose bid server!'
       }
