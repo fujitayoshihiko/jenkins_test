@@ -13,7 +13,7 @@ pipeline {
       steps {
         echo 'ok'
         script {
-          Test = "ABCD"
+          Test = "${Server}"
         }
 
       }
