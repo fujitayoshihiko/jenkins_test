@@ -1,22 +1,26 @@
+def datas
+
 pipeline {
   agent any
   stages {
     stage('server select') {
-      input {
-        message 'Did you commit the source?'
-        id 'Server'
-        parameters {
-          string(name: 'SERVER', defaultValue: 'bid', description: 'Who should I say hello to?')
-        }
-      }
       steps {
+        scripts {
+          datas.server = input(
+            message: 'Did you commit the source?',
+            id: 'Server',
+            parameters: [
+              string(name: 'SERVER', defaultValue: 'bid', description: 'Who should I say hello to?')
+            ]
+          )
+        }
         echo 'chose bid server!'
       }
     }
 
     stage('check lb-sout') {
       steps {
-        echo $SERVER
+        echo $datas.server
         retry(count: 30) {
           withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
             sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
