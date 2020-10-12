@@ -79,14 +79,30 @@ EOF
     stage('stop service') {
       parallel {
         stage('service stop') {
-          steps {
-            sh 'ls'
+          steps {          
+            withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
+              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+sudo systemctl stop td-agent
+sudo systemctl stop svscan
+sudo systemctl stop nginx
+
+sudo systemctl disable td-agent
+sudo systemctl disable svscan
+sudo systemctl disable nginx
+EOF
+'''
+            }
+            
           }
         }
 
         stage('stop cron') {
           steps {
-            sh 'ls'
+            withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'cb4692c9-04ae-47c8-b0de-869adadb9466', keyFileVariable: 'sshkey')]) {
+              sh '''ssh -o "StrictHostKeyChecking=no" -i $sshkey root@192.168.86.100 <<\'EOF\'
+# crontab -r
+EOF
+'''
           }
         }
 
