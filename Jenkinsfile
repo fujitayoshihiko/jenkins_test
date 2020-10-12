@@ -20,6 +20,9 @@ pipeline {
     }
 
     stage('check lb-sout') {
+      environment {
+        Server = "${Server}"
+      }
       steps {
         echo "${Server}"
         retry(count: 30) {
@@ -145,8 +148,5 @@ EOF
       }
     }
 
-  }
-  environment {
-    Test = ''
   }
 }
