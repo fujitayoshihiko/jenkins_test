@@ -1,5 +1,3 @@
-def datas
-
 pipeline {
   agent any
   stages {
@@ -14,6 +12,7 @@ pipeline {
             ]
           )
         }
+
         echo 'chose bid server!'
       }
     }
