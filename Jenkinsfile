@@ -13,7 +13,7 @@ pipeline {
       steps {
         echo 'ok'
         environment {
-          Test = ${Test}
+          Test = "${Test}"
         }
       }
     }
